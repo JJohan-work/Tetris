@@ -1,66 +1,99 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const width = 20;
+  let width = 30;
+  let height = 50;
+  let speed = 500;
+
+  function changeWidth(id,w) {
+    var el = document.getElementById(id);
+    el.style.width = String(w*20)+"px";
+  }
+
+  function changeHeight(id,h,w) {
+    var el = document.getElementById(id);
+    el.style.height = String(h*20)+"px";
+  }
+
+    //The Tetrominoes
+    function generateTetrominos(width) {
+      const lTetromino = [
+        [1, width+1, width*2+1, 2],
+        [width, width+1, width+2, width*2+2],
+        [1, width+1, width*2+1, width*2],
+        [width, width*2,width*2+1, width*2+2]
+      ]
+      const zTetromino = [
+        [0,width,width+1,width*2+1],
+        [width+1, width+2,width*2,width*2+1],
+        [0,width,width+1,width*2+1],
+        [width+1, width+2,width*2,width*2+1]
+      ]
+      const tTetromino = [
+        [1,width,width+1,width+2],
+        [1,width+1,width+2,width*2+1],
+        [width,width+1,width+2,width*2+1],
+        [1,width,width+1,width*2+1]
+      ]
+      const oTetromino = [
+        [0,1,width,width+1],
+        [0,1,width,width+1],
+        [0,1,width,width+1],
+        [0,1,width,width+1]
+      ]
+      const iTetromino = [
+        [1,width+1,width*2+1,width*3+1],
+        [width,width+1,width+2,width+3],
+        [1,width+1,width*2+1,width*3+1],
+        [width,width+1,width+2,width+3]
+      ]
+  
+      return [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
+    }
 
   //add pixel divs
-  for (let i = 0; i < width*20; i++) {
-    $('.grid').append('<div></div>');
-  }
-  for (let i = 0; i < width; i++) {
-    $('.grid').append('<div class="taken ground"></div>');
+  function generatePixel(width, height) {
+    changeWidth("grid",width);
+    changeHeight("grid",height,width);
+
+    for (let i = 0; i < width*height; i++) {
+      $('.grid').append('<div></div>');
+    }
+    for (let i = 0; i < width; i++) {
+      $('.grid').append('<div class="taken ground"></div>');
+    }
+    grid = document.querySelector('.grid');
+    squares = document.querySelectorAll('.grid div');
+    currentPosition = Math.floor(Math.random()*width-3)
+    return generateTetrominos(width);
   }
 
+  let theTetrominoes = generatePixel(width,height);
   //select grid from DOM
-  const grid = document.querySelector('.grid');
-  let squares = document.querySelectorAll('.grid div');
   const ScoreDisplay = document.querySelector("#score")
   const StartBtn = document.querySelector("#start-button")
 
-  //The Tetrominoes
-  const lTetromino = [
-    [1, width+1, width*2+1, 2],
-    [width, width+1, width+2, width*2+2],
-    [1, width+1, width*2+1, width*2],
-    [width, width*2,width*2+1, width*2+2]
-  ]
-  const zTetromino = [
-    [0,width,width+1,width*2+1],
-    [width+1, width+2,width*2,width*2+1],
-    [0,width,width+1,width*2+1],
-    [width+1, width+2,width*2,width*2+1]
-  ]
-  const tTetromino = [
-    [1,width,width+1,width+2],
-    [1,width+1,width+2,width*2+1],
-    [width,width+1,width+2,width*2+1],
-    [1,width,width+1,width*2+1]
-  ]
-  const oTetromino = [
-    [0,1,width,width+1],
-    [0,1,width,width+1],
-    [0,1,width,width+1],
-    [0,1,width,width+1]
-  ]
-  const iTetromino = [
-    [1,width+1,width*2+1,width*3+1],
-    [width,width+1,width+2,width+3],
-    [1,width+1,width*2+1,width*3+1],
-    [width,width+1,width+2,width+3]
-  ]
-
-  const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
 
   //The colors
 
   colors = ["tetrominoblue","tetrominored","tetrominogreen","tetrominoorange"]
 
-  let currentPosition = 5 //Math.floor(Math.random()*width)
   let currentRotation = Math.floor(Math.random()*4)
   let currentColor = colors[Math.floor(Math.random()*colors.length)]
 
 
 
   //change the screen size
-
+  shrink.onclick = () => {
+    const myNode = document.getElementById("grid");
+    myNode.innerHTML = '';
+    width = width - 1;
+    theTetrominoes = generatePixel(width, height);
+  }
+  grow.onclick = () => {
+    const myNode = document.getElementById("grid");
+    myNode.innerHTML = '';
+    width = width + 1;
+    theTetrominoes = generatePixel(width, height);
+  }
 
 
 //randomly select a Tetromino and its first rotation
@@ -84,7 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //make the tetromino move down every second
-  timerId = setInterval(moveDown, 1000)
+  let toggle = true;
+  startButton.onclick = () => {
+    if (toggle) {
+      timerId = setInterval(moveDown, speed);
+      toggle = !toggle;
+    } else {
+      clearTimeout(timerId);
+      const myNode = document.getElementById("grid");
+      myNode.innerHTML = '';
+      generatePixel(width, height);
+      toggle = !toggle;
+    }
+  };
 
   //assign functions to keyCodes
   function control(e) {
@@ -114,9 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
       //start a new tetromino falling
       random = Math.floor(Math.random() * theTetrominoes.length)
       current = theTetrominoes[random][currentRotation]
-      currentColor = colors[Math.floor(Math.random()*3)]
+      currentColor = colors[Math.floor(Math.random()*colors.length)]
       currentRotation = Math.floor(Math.random()*4)
-      currentPosition = 4 // Math.floor(Math.random()*width)
+      currentPosition = Math.floor(Math.random()*width)
       draw()
     }
   }
