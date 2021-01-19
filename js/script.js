@@ -139,22 +139,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(!isAtRightEdge) {currentPosition +=1}
 
-    if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-      currentPositon -=1
-    }
+    if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {currentPositon -=1}
 
     draw()
   }
   function rotate() {
     undraw()
-    currentRotation +=1
-    if (currentRotation === 4) {currentRotation = 0}
-    const isAtEdge = current.some(index => (currentPosition + index) % width === width-1) && current.some(index => (currentPosition + index) % width === 0)
-
-    if(isAtEdge) {currentRotation -=1}
-
-    if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-      currentRotation -=1
+    currentRotation ++
+    if (currentRotation === current.length) {currentRotation = 0}
+    current = theTetrominoes[random][currentRotation]
+    const isAtRightEdge = current.some(index => (currentPosition + index) % width === width-1)
+    const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
+    if (isAtLeftEdge && isAtRightEdge) {
+      if (currentRotation === 0){currentRotation = 3}
+      else {currentRotation -= 1}
+      current = theTetrominoes[random][currentRotation]
     }
     draw()
   }
