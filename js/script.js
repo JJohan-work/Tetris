@@ -95,6 +95,20 @@ document.addEventListener('DOMContentLoaded', () => {
     theTetrominoes = generatePixel(width, height);
   }
 
+  contract.onclick = () => {
+    const myNode = document.getElementById("grid");
+    myNode.innerHTML = '';
+    height = height - 1;
+    theTetrominoes = generatePixel(width, height);
+  }
+
+  expand.onclick = () => {
+    const myNode = document.getElementById("grid");
+    myNode.innerHTML = '';
+    height = height + 1;
+    theTetrominoes = generatePixel(width, height);
+  }
+
 
 //randomly select a Tetromino and its first rotation
   let random = Math.floor(Math.random()*theTetrominoes.length)
@@ -118,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //make the tetromino move down every second
   let toggle = true;
-  startButton.onclick = () => {
+
+  function startstop() {
     if (toggle) {
       timerId = setInterval(moveDown, speed);
       toggle = !toggle;
@@ -131,15 +146,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  startButton.onclick=function(){startstop()}
+
   //assign functions to keyCodes
   function control(e) {
-    if(e.keyCode === 37) {
+    console.log(e.keyCode === 38 || e.keyCode == 87)
+    if(e.keyCode === 37 || e.keyCode === 65) {
       moveLeft()
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 39 || e.keyCode == 68) {
       moveRight()
-    } else if (e.keyCode === 40) {
+    } else if (e.keyCode === 40 || e.keyCode == 83) {
       moveDown()
-    } else if (e.keyCode === 38) {
+    } else if (e.keyCode === 38 || e.keyCode == 87) {
       rotate()
     }
   }
@@ -184,7 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(!isAtRightEdge) {currentPosition +=1}
 
-    if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {currentPositon -=1}
+    if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+      currentPosition -=1
+    }
 
     draw()
   }
