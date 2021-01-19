@@ -1,0 +1,29 @@
+.grid {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: yellow;
+}
+
+.grid div {
+  height: 20px;
+  width:20px;
+  border:1px solid black;
+}
+
+.tetrominoblue {
+  background-color: blue;
+}
+
+.tetrominored {
+  background-color: red;
+}
+
+.tetrominogreen {
+  background-color: green;
+}
+
+.tetrominoorange {
+  background-color: orange;
+}

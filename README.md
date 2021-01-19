@@ -5,7 +5,8 @@
 * * *
 
 ## Description  
-A Tetris game made in javascript
+A Tetris game made in javascript.   
+_This project was based off the lesson giving online [here](https://www.youtube.com/watch?v=rAUn1Lom6dw)_    
 
 * * *
 
