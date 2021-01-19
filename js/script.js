@@ -1,15 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   let width = 30;
   let height = 50;
-  let speed = 500;
+  let speed = 10;
 
   function changeWidth(id,w) {
     var el = document.getElementById(id);
+    var main = document.getElementsByTagName("main")[0]
     el.style.width = String(w*20)+"px";
+    main.style.width = String((w*20)+10)+"px";
   }
 
   function changeHeight(id,h,w) {
     var el = document.getElementById(id);
+    var main = document.getElementsByTagName("main")[0]
     el.style.height = String(h*20)+"px";
   }
 
@@ -49,12 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
     }
 
+
+  function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   //add pixel divs
   function generatePixel(width, height) {
     changeWidth("grid",width);
     changeHeight("grid",height,width);
 
-    for (let i = 0; i < width*height; i++) {
+    for (let i = 0; i < width*height-width; i++) {
       $('.grid').append('<div></div>');
     }
     for (let i = 0; i < width; i++) {
@@ -62,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     grid = document.querySelector('.grid');
     squares = document.querySelectorAll('.grid div');
-    currentPosition = Math.floor(Math.random()*width-3)
+    currentPosition = randomIntFromInterval(0,width-4);
     return generateTetrominos(width);
   }
 
@@ -76,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   colors = ["tetrominoblue","tetrominored","tetrominogreen","tetrominoorange"]
 
-  let currentRotation = Math.floor(Math.random()*4)
+  let currentRotation = randomIntFromInterval(0,3)
   let currentColor = colors[Math.floor(Math.random()*colors.length)]
 
 
@@ -175,11 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
       current.forEach(index => squares[currentPosition + index].classList.add('taken'))
       //start a new tetromino falling
-      random = Math.floor(Math.random() * theTetrominoes.length)
-      current = theTetrominoes[random][currentRotation]
-      currentColor = colors[Math.floor(Math.random()*colors.length)]
-      currentRotation = Math.floor(Math.random()*4)
-      currentPosition = Math.floor(Math.random()*width)
+      random = Math.floor(Math.random() * theTetrominoes.length);
+      current = theTetrominoes[random][currentRotation];
+      currentColor = colors[Math.floor(Math.random()*colors.length)];
+      currentRotation = randomIntFromInterval(0,3)
+      currentPosition = randomIntFromInterval(0,width-4)
       draw()
     }
   }
