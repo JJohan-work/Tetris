@@ -22,7 +22,7 @@ _This project was based off the lesson giving online [here](https://www.youtube.
 * * *
 
 ## Setup instructions:  
-* Go to [Github Pages](https://jjohan-work.github.io/#) to see see game
+* Go to [Github Pages](https://jjohan-work.github.io/Tetris/) to see see game
 
 * * *
 #### How To play:
@@ -43,6 +43,7 @@ _This project was based off the lesson giving online [here](https://www.youtube.
 * Preview next tetromino
 * Game Over condition
 * settings window to prevent mid-game setting change
+* remake setting buttons in html form format
 * Code refactor to improve readability and reduce mid-game change errors
 
 * * *
