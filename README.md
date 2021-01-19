@@ -22,12 +22,12 @@ _This project was based off the lesson giving online [here](https://www.youtube.
 * * *
 
 ## Setup instructions:  
-* Go to [Github Pages](https://jjohan-work.github.io/Tetris/) to see see game
+* Go to [Github Pages](https://jjohan-work.github.io/Tetris/) to see game
 
 * * *
 #### How To play:
-* when on index.html press start/pause to begin game - pressing pause currently resets the game
-* When adjusting width/height have the game paused as otherwise it causes glitches in the game
+* when on index.html press start/Stop to begin game - Stopping currently resets the game
+* adjusting width/height will reset the game to beginning
 
 #### Controls:
 * A / left = move falling tetromino left
@@ -45,6 +45,7 @@ _This project was based off the lesson giving online [here](https://www.youtube.
 * settings window to prevent mid-game setting change
 * remake setting buttons in html form format
 * Code refactor to improve readability and reduce mid-game change errors
+* Add Pause button to halt midgame without reseting progress
 
 * * *
 
